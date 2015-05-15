@@ -56,12 +56,12 @@ var zoomCall = undefined;
 function D3ok() {
 
   // Some constants
-  var WIDTH = 960,
-      HEIGHT = 600,
+  var WIDTH = 180,
+      HEIGHT = 200,
       SHOW_THRESHOLD = 2.5;
 
   // Variables keeping graph state
-  var activeMovie = undefined;
+  var activeNode = undefined;
   var currentOffset = { x : 0, y : 0 };
   var currentZoom = 1.0;
 
@@ -81,9 +81,9 @@ function D3ok() {
 
   // The D3.js force-directed layout
   var force = d3.layout.force()
-    .charge(-320)
+    .charge(-4000)
     .size( [WIDTH, HEIGHT] )
-    .linkStrength( function(d,idx) { return d.weight; } );
+    .linkStrength( function(d,idx) { return d.exchangedMessages; } );
 
   // Add to the page the SVG element that will contain the movie network
   var svg = d3.select("#sociogram").append("svg:svg")
@@ -200,11 +200,17 @@ function D3ok() {
     var nodeArray = data.nodes;
     var linkArray = data.links;
 
-    minLinkWeight = 
-      Math.min.apply( null, linkArray.map( function(n) {return n.weight;} ) );
-    maxLinkWeight = 
-      Math.max.apply( null, linkArray.map( function(n) {return n.weight;} ) );
+    minMessagesBetweenTwoSenders =  Math.min.apply( null, linkArray.map( function(n) {return n.exchangedMessages;} ) );
+    maxMessagesBetweenTwoSenders =  Math.max.apply( null, linkArray.map( function(n) {return n.exchangedMessages;} ) );
 
+    minMessagesToThread = Math.min.apply( null, nodeArray.map( function(n) {return n.messagesToThread;} ) );
+    maxMessagesToThread = Math.max.apply( null, nodeArray.map( function(n) {return n.messagesToThread;} ) );
+
+    //Count thread's total amout of messages
+    var totalMessages = 0;
+    for (var i=nodeArray.length; i--;) {
+     totalMessages += nodeArray[i].messagesToThread;
+    }
     // Add the node & link arrays to the layout, and start it
     force
       .nodes(nodeArray)
@@ -213,12 +219,12 @@ function D3ok() {
 
     // A couple of scales for node radius & edge width
     var node_size = d3.scale.linear()
-      .domain([0,10])	// we know score is in this domain
-      .range([0,10])
+      .domain([minMessagesToThread,maxMessagesToThread])	// we know score is in this domain
+      .range([5,15])
       .clamp(true);
 
-    var edge_width = d3.scale.pow().exponent(8)
-      .domain( [minLinkWeight,maxLinkWeight] )
+    var edge_width = d3.scale.linear()
+      .domain( [1,10] )
       .range([1,5])
       .clamp(true);
 
@@ -240,7 +246,7 @@ function D3ok() {
       .selectAll("line")
       .data(linkArray, function(d) {return d.source.id+"-"+d.target.id;} )
       .enter().append("line")
-      .style('stroke-width', function(d) { return edge_width(d.weight);} )
+      .style('stroke-width', function(d) { return edge_width(d.exchangedMessages);} )
       .attr("class", "link")
       .on("mouseover", function(d) { highlightLink(d,true,this);  } )
       .on("mouseout",  function(d) { highlightLink(d,false,this); } );
@@ -252,8 +258,8 @@ function D3ok() {
       .data( nodeArray, function(d){ return d.id; } )
       .enter().append("svg:circle")
       .attr('id', function(d) { return "c" + d.index; } )
-      .attr('class', function(d) { return 'node level'+d.level;} )
-      .attr('r', function(d) { return node_size(d.score); } )
+      .attr('class', function(d) { return 'node';} )
+      .attr('r', function(d) { return node_size(d.messagesToThread); } )
       .attr('pointer-events', 'all')
       .on("mouseover", function(d) { highlightGraphNode(d,true,this);  } )
       .on("mouseout",  function(d) { highlightGraphNode(d,false,this); } );
@@ -265,7 +271,7 @@ function D3ok() {
    
     var graphLabels = networkGraph.append('svg:g').attr('class','grp gLabel')
       .selectAll("g.label")
-      .data( nodeArray, function(d){return d.label;} )
+      .data( nodeArray, function(d){return d.name;} )
       .enter().append("svg:g")
       .attr('id', function(d) { return "l" + d.index; } )
       .attr('class','label');
@@ -284,7 +290,7 @@ function D3ok() {
       .attr('pointer-events', 'none') // they go to the circle beneath
       .attr('id', function(d) { return "lb" + d.index; } )
       .attr('class','nshadow')
-      .text( function(d) { return d.label; } );//*/
+      .text( function(d) { return (d.name + "("+d.messagesToThread+")"); } );//*/
 
     labelsNodes = graphLabels.append('svg:text')
       .attr('x','-2em')
@@ -292,17 +298,25 @@ function D3ok() {
       .attr('pointer-events', 'none') // they go to the circle beneath
       .attr('id', function(d) { return "lf" + d.index; } )
       .attr('class','nlabel')
-      .text( function(d) { return d.label; } );
+      .text( function(d) { return (d.name + "("+d.messagesToThread+")"); } );
 
+
+    shadowsLinks = linkLabels.append('svg:text')
+      .attr('x','-0.1em')
+      .attr('y','-0.1em')
+      .attr('pointer-events', 'none') // they go to the circle beneath
+      .attr('id', function(d) { return ('lls' + d.source.id + '-' + d.target.id); } )
+      .attr('class','nshadow')
+      .text( function(d) { return (d.exchangedMessages); } );//*/
 
 
     labelsLinks = linkLabels.append('svg:text')
-      .attr('x','0em')
-      .attr('y','0em')
+      .attr('x','-0.1em')
+      .attr('y','-0.1em')
       .attr('pointer-events', 'none') // they go to the circle beneath
       .attr('id', function(d) { return ('llt' + d.source.id + '-' + d.target.id); } )
       .attr('class','nlabel')
-      .text( function(d) { return d.text; } );
+      .text( function(d) { return d.exchangedMessages; } );
 
 
     
@@ -325,7 +339,7 @@ function D3ok() {
       
 
       // set the value for the current active movie
-      //activeMovie = on ? node.index : undefined;
+      //activeNode = on ? node.index : undefined;
     }
 
     /* --------------------------------------------------------------------- */
@@ -340,8 +354,8 @@ function D3ok() {
 
       // If we are to activate a movie, and there's already one active,
       // first switch that one off
-      if( on && activeMovie !== undefined ) {
-        highlightGraphNode( nodeArray[activeMovie], false );
+      if( on && activeNode !== undefined ) {
+        highlightGraphNode( nodeArray[activeNode], false );
       }
 
       // locate the SVG nodes: circle & label group
@@ -365,7 +379,7 @@ function D3ok() {
       } );
 
       // set the value for the current active movie
-      activeMovie = on ? node.index : undefined;
+      activeNode = on ? node.index : undefined;
     }
 
     /* --------------------------------------------------------------------- */

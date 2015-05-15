@@ -3,100 +3,60 @@
     {
       "index": 0, 
       "links": [
-        1,2,3
+        1
       ], 
-      "score": 5, 
-      "level": 3, 
-      "title": "Pedro", 
-      "cover": "http://image.tmdb.org/t/p/w342/wRamTzV6udKaMXrspxqOuo02zk0.jpg", 
-      "label": "Blood Diamond (2006)", 
-      "director": "Edward Zwick", 
-      "cast": "Leonardo DiCaprio, Djimon Hounsou, Jennifer Connelly, Arnold Vosloo, David Harewood, Jimi Mistry, Michael Sheen, Marius Weyers, Stephen Collins, Ato Essandoh", 
-      "year": 2006, 
-      "duration": "143 minutes", 
-      "genre": "Action, Drama, Adventure, Thriller", 
-      "id": 1768448
+      "messagesToThread": 5, 
+      "name": "Pedro", 
+      "id": 0
     }, 
     {
       "index": 1, 
       "links": [
-        0,2
+        2
       ], 
-      "score": 7, 
-      "level": 2, 
-      "title": "José", 
-      "cover": "http://image.tmdb.org/t/p/w342/wxsyl5wjobtYhll3rf5nGuC4kBN.jpg", 
-      "label": "Lonely Hearts (2006)", 
-      "director": "Todd Robinson", 
-      "cast": "John Travolta, James Gandolfini, Salma Hayek, Jared Leto, Laura Dern, Dan Byrd, Alice Krige, Dagmara Dominczyk, Bailee Madison", 
-      "year": 2006, 
-      "duration": "108 minutes", 
-      "genre": "Drama, Romance, Thriller, Crime", 
-      "id": 1758379
+      "messagesToThread": 1, 
+      "name": "José", 
+      "id": 1
     }, 
     {
       "index": 2, 
       "links": [
-        0,1
+        3
       ], 
-      "score": 10, 
-      "level": 2, 
-      "title": "Joaquim", 
-      "cover": "http://image.tmdb.org/t/p/w342/hFUsdnUoQDQ02EVlKTyhDTdehEr.jpg", 
-      "label": "hu3hu3hu3", 
-      "director": "Todd Phillips", 
-      "cast": "Bradley Cooper, Zach Galifianakis, Justin Bartha, Ed Helms, Ken Jeong, Mike Tyson, Jamie Chung, Paul Giamatti, Jeffrey Tambor, Mason Lee", 
-      "year": 2011, 
-      "duration": "102 minutes", 
-      "genre": "Comedy", 
-      "id": 5
+      "messagesToThread": 10, 
+      "name": "Joaquim", 
+      "id": 2
     },
     {
       "index": 3, 
       "links": [
         0
       ], 
-      "score": 10, 
-      "level": 2, 
-      "title": "Santos", 
-      "cover": "cover", 
-      "label": "o Joseph", 
-      "director": "Todd Phillips", 
-      "cast": "Bradley Cooper, Zach Galifianakis, Justin Bartha, Ed Helms, Ken Jeong, Mike Tyson, Jamie Chung, Paul Giamatti, Jeffrey Tambor, Mason Lee", 
-      "year": 2011, 
-      "duration": "117 minutes", 
-      "genre": "Drama", 
+      "messagesToThread": 7, 
+      "name": "Santos", 
       "id": 3
     }
   ], 
   "links": [
     {
       "source": 0, 
-      "target": 1, 
-      "weight": 1,
-      "amount": 5,
-      "text": "sth"
+      "target": 1,
+      "exchangedMessages": 5
     }, 
-    {
-      "source": 0, 
-      "target": 2, 
-      "weight": 0.6,
-      "amount": 7,
-      "text": "sth"
-    },
     {
       "source": 1, 
       "target": 2, 
-      "weight": 0.3,
-      "amount": 3,
-      "text": "sth"
+      "exchangedMessages": 1
     },
     {
-      "source": 0, 
+      "source": 2, 
       "target": 3, 
-      "weight": 1,
-      "amount": 1,
-      "text": "sth"
+      "exchangedMessages": 10
+    },
+    {
+      "source": 3, 
+      "target": 0, 
+      "exchangedMessages": 7
     }
   ]
 }
