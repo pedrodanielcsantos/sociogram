@@ -1,0 +1,101 @@
+/* ---------------------------------------------------------------------------
+   (c) Telefónica I+D, 2013
+   Author: Paulo Villegas
+   ------------------------------------------------------------------------- */
+
+
+body {
+    background-color: #f6f6f6;
+}
+
+/* HREF links */
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: blue;
+}
+
+/* ....................................................................... */
+/* SVG elements */
+
+div#movieNetwork svg {
+    background-color: white;
+    cursor: move;
+}
+
+line.link {
+    stroke: #B2D9D8;
+}
+
+circle {
+    fill: #F9966A;
+}
+
+circle.sibling {
+    stroke: #222422;
+    stroke-width:1;
+}
+
+circle.main {
+    /*fill: red;*/
+    stroke: #222422;
+    stroke-width:1;
+}
+
+/* ....................................................................... */
+/* Graph labels */
+
+g.gLabel, g.lLabel {
+    font: 10px sans-serif;
+    font-weight: normal;
+    visibility: hidden;
+}
+
+g.on, g.main {
+    visibility: visible;    
+}
+
+g.zoomed {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    text-align: center;
+    color: #000;
+    border: none;
+    z-index: 0;
+}
+
+text {
+    font: 10px sans-serif;
+    font-weight: normal;
+    stroke-opacity: 1.0;
+    color:#000;
+}
+
+text.nlabel { 
+}
+
+
+
+text.nshadow {
+    stroke: #fff;
+    stroke-width: 3px;
+    /*stroke-opacity: 0.5;*/
+    /*visibility: hidden;*/
+}
+
+text.main {
+    font: 12px sans-serif;
+    font-weight: bold;
+}
+
+
+/* ....................................................................... */
